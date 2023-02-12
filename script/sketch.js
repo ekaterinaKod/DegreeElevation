@@ -1,8 +1,15 @@
-// Move sensitivity
+const degreeText = document.getElementById('degreeText');
+const degreeAddBtn = document.getElementById('degreeAddBtn');
+const showBezierCurveBtn = document.getElementById('showBezierCurveBtn');
+const showControlPointsBtn = document.getElementById('showControlPointsBtn');
+const showControlPolygonalBtn = document.getElementById('showControlPolygonalBtn');
+const userGuideText = document.getElementById('userGuideText');
+
+
 const MOVE_SENS = 5;
 const AVILIATIONS = 1000;
-const CANVAS_W = 500;
-const CANVAS_H = 500;
+const CANVAS_W = 600;
+const CANVAS_H = 600;
 
 let points = [];
 let curvePoints = [];
@@ -12,30 +19,29 @@ let isMoving = false;
 let moveIndex = 0;
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(CANVAS_W, CANVAS_H);
 }
 
 function draw() {
-  background('beige');
-  
-  let params = [];
+  background('#CFCFCF');
 
   for (const [i, item] of points.entries()) {
-    stroke('red');
-    strokeWeight(5);
-    point(item.x, item.y);
-    params.push(item.x, item.y);
-    if (i > 0) {
+    if (showControlPointsBtn.checked) {
+      stroke('red');
+      strokeWeight(7);
+      point(item.x, item.y);
+    }
+    if (i > 0 && showControlPolygonalBtn.checked) {
       stroke('black');
       strokeWeight(2);
       line(points[i - 1].x, points[i -1].y, item.x, item.y);
     }
   }
   
-  if (points.length > 2) {
+  if (points.length > 2 && showBezierCurveBtn.checked) {
     deCasteljau();
+
     strokeWeight(2);
-    
     stroke('red');
     for (let i in curvePoints) {
       if (i > 0) {
@@ -75,7 +81,7 @@ function getCurvePoint (t) {
     }
     auxPoints=[];
     
-    for (i in auxPointsTemp) {
+    for (let i in auxPointsTemp) {
       auxPoints.push(auxPointsTemp[i]);
     }
 
@@ -84,31 +90,51 @@ function getCurvePoint (t) {
 }
 
 function degreeElevation() {
+  if (points.length < 3) return;
+
   auxPoints = [];
   for (let p of points) {
     auxPoints.push(p);
   }
-  var n = points.length - 1;
-  var a;
-  var b;
+  let n = points.length - 1;
+  let a;
+  let b;
   points = [];
   curvePoints = [];
 
   points.push(auxPoints[0]);
   for (let i = 1; i <= n; i++) {
-    a = i / (n + 1);
+    a = i / (n + 1);  
     b = 1 - a;
     points.push({x: (a * auxPoints[i-1].x) + (b * auxPoints[i].x) , y: (a * auxPoints[i-1].y) + (b * auxPoints[i].y)});   
   }
   points.push(auxPoints[n]);
 
-  //draw();
+  setDegreeData();
+}
+
+function setDegreeData() {
+  degreeText.textContent = points.length > 2 ? points.length - 1 : 'Ø';
+  if (points.length > 2) {
+    degreeAddBtn.removeAttribute('disabled');
+  } else {
+    degreeAddBtn.setAttribute('disabled', true);
+  }
+}
+
+function clearScreen() {
+  points = [];
+  curvePoints = [];
+  auxPoints = [];
+  setDegreeData();
 }
 
 function mouseDragged() {
   if (isMoving) {
-    points[moveIndex].x = mouseX;
-    points[moveIndex].y = mouseY;
+    if (mouseX >= 0 && mouseX <= CANVAS_W)
+      points[moveIndex].x = mouseX;
+    if (mouseY >= 0 && mouseY <= CANVAS_H)
+      points[moveIndex].y = mouseY;
   }
 }
 
@@ -123,11 +149,23 @@ function mousePressed() {
       return;
     }
   }
-  if (mouseX <= CANVAS_H && mouseY <= CANVAS_W)
-  points.push({x : mouseX, y: mouseY});
-  
+
+  if (mouseX >= 0 && mouseX <= CANVAS_H &&
+      mouseY >= 0 && mouseY <= CANVAS_W) {
+    points.push({x : mouseX, y: mouseY});
+    setDegreeData();
+  }
+
 }
 
 function mouseReleased() {
   isMoving = false;
 }
+
+// function toggleUserGuideText() {
+//   if (userGuideText.style.display === "none") {
+//     userGuideText.style.display = "block";
+//   } else {
+//     userGuideText.style.display = "none";
+//   }
+// }
