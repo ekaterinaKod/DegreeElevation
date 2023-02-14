@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="script/p5.min.js"></script>
+    <script src="script/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/all.min.css">
+    <meta charset="utf-8" />
+    <title>
+        Degree Elevation
+    </title>
+</head>
+
+<body>
+    <div class="nav-container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Degree elevation of Bézier curve</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="index.html">Main Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="expl.html">Explanation</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <span class="navbar-text">
+                    by E.Kodzhabasheva
+                </span>
+            </div>
+        </nav>
+    </div>
+    <div class="row body-container pt-3 m-0">
+        <div class="col-12">
+
+            <div class="row">
+                <div class="col text-center">
+                    <h4>Увеличаване на степента (degree elevation)</h4>
+                    <br>
+                    <h4>Математическо описание на алгоритъма</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mx-4 p-4">
+                    <p>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        „Degree elevation” увеличава степента на кривата на Bézier без да променя формата и.
+                        Основната идея на повишаването на степента на криви на  Bézier е зададената полиномиална
+                        крива от степен n да представим като полином от степен n + 1. За целта трябва да определим 
+                        контролен полигон с върхове <img class="img-1" src="img/img1.png" alt="..."> 
+                        , който описва същата крива, зададена първоначално с полигон <img class="img-2" src="img/img2.png" alt="..."> .
+                        Формулата за получаване на новите въхове:
+                        <img class="img-3" src="img/img3.png" alt="..."> 
+                    </p>
+                    <p>
+                        Тоест новите върхове <img class="img-1" src="img/bi1.png" alt="..."> се получават от старите въхове чрез линейна интерполация със стойност на памаетъра 
+                        <img class="img-4" src="img/img4.png" alt="...">  . 
+                    </p>
+                    <br>
+                    <div class="row">
+                        <div class="col pl-0 flex-grow-0">
+                            <img class="img-5" src="img/img5.png" alt="...">
+                        </div>
+                        <div class="col p-0 flex-grow-1">
+                            фиг. Крива и полигон от 3-та и 4-та  степен, описващ същата крива
+                        </div>
+                    </div>
+                    <p>
+                        Възможно е да повторим процеса на повишаване на степента многократно.
+                        Нека оригиналният ни полигон е P – при повишаване на степента последователно, ще получим полигони 
+                        <img class="img-6" src="img/img6.png" alt="..."> и т.н. Ако повторим този процес r пъти, 
+                        ще получим полигон <img class="img-7" src="img/img7.png" alt="...">. Може да се докаже, че 
+                        <img class="img-8" src="img/img8.png" alt="..."> Тоест с увеличаване на степента на полигона, 
+                        той започва да се стреми към кривата, определна от началния полигон.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+
+                </div>
+            </div>
+     
+        </div>
+    </div>
+</body>
+</html>

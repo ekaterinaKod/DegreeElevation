@@ -6,6 +6,7 @@ const showControlPolygonalBtn = document.getElementById('showControlPolygonalBtn
 const userGuideText = document.getElementById('userGuideText');
 
 
+let currentSection = "main";
 const MOVE_SENS = 5;
 const AVILIATIONS = 1000;
 const CANVAS_W = 600;
@@ -59,11 +60,9 @@ function draw() {
 
 function deCasteljau() {
   curvePoints = [];
-  auxPoints = [];
   for (let c = 1; c < AVILIATIONS; c++){
-    for(let p of points){
-      auxPoints.push(p);
-    }
+    auxPoints = [...points];
+
     curvePoints.push(getCurvePoint(c/AVILIATIONS));
   }
 }
@@ -79,11 +78,7 @@ function getCurvePoint (t) {
         auxPointsTemp.push({x: (auxPoints[i-1].x * (1-t)) + (auxPoints[i].x * t), y: (auxPoints[i-1].y * (1-t)) + (auxPoints[i].y * t)})
       }
     }
-    auxPoints=[];
-    
-    for (let i in auxPointsTemp) {
-      auxPoints.push(auxPointsTemp[i]);
-    }
+    auxPoints = [...auxPointsTemp];
 
     return getCurvePoint(t);
   }
@@ -92,15 +87,12 @@ function getCurvePoint (t) {
 function degreeElevation() {
   if (points.length < 3) return;
 
-  auxPoints = [];
-  for (let p of points) {
-    auxPoints.push(p);
-  }
+  isAdding = false;
+  auxPoints = [...points];
   let n = points.length - 1;
   let a;
   let b;
   points = [];
-  curvePoints = [];
 
   points.push(auxPoints[0]);
   for (let i = 1; i <= n; i++) {
@@ -162,10 +154,12 @@ function mouseReleased() {
   isMoving = false;
 }
 
-// function toggleUserGuideText() {
-//   if (userGuideText.style.display === "none") {
-//     userGuideText.style.display = "block";
-//   } else {
-//     userGuideText.style.display = "none";
-//   }
-// }
+function showSection(sectionId) {
+  if (currentSection === "explanation" && sectionId === "main") {
+    clearScreen();
+  }
+
+  document.getElementById(currentSection).style.display = "none";
+  document.getElementById(sectionId).style.display = "block";
+  currentSection = sectionId;
+}

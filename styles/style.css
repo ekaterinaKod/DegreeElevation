@@ -20,14 +20,6 @@ canvas {
   width: 100%;
 }
 
-.controls-container {
-}
-
-.canvas-container {
-}
-.info-container {
-}
-
 #degreeAddBtn:disabled {
   cursor: not-allowed !important;
   pointer-events: all !important;
@@ -59,4 +51,29 @@ canvas {
   
 .myBox::-webkit-scrollbar-thumb:hover {
   background: #757671;  
+}
+
+.img-1 {
+  height: 25px;
+}
+
+.img-2 {
+  height: 20px;
+}
+
+.img-3 {
+  /* height: 20px; */
+}
+
+.img-4 {
+  /* height: 20px; */
+}
+
+.img-5 {
+  height: 250px;
+  border: 2px solid black;
+}
+
+.img-6 {
+  height: 20px;
 }
